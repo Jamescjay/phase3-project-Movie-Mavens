@@ -1,11 +1,37 @@
-import { Box, Flex, FormControl, FormLabel, Heading, Input, Stack, Textarea, Button } from '@chakra-ui/react'
-import React from 'react'
+import { useState } from "react";
+import {
+  Box,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Textarea,
+  Button,
+} from "@chakra-ui/react";
 
 function AddReview() {
+  const [rating, setRating] = useState(0);
+
+  const incrementRating = () => {
+    if (rating < 10) {
+      setRating(rating + 1);
+    }
+  };
+
+  const decrementRating = () => {
+    if (rating > 0) {
+      setRating(rating - 1);
+    }
+  };
+
   return (
     <Flex align={"center"} justify={"center"}>
       <Stack>
-        <Heading fontSize={"4xl"}>Add Review</Heading>
+        <Heading fontSize={"4xl"} fontFamily={"Gotham"}>
+          Add Review
+        </Heading>
         <Box rotate={"lg"} bg={"white"} p={8}>
           <Stack>
             <FormControl isRequired>
@@ -25,9 +51,13 @@ function AddReview() {
 
             <FormControl isRequired>
               <FormLabel>Ratings</FormLabel>
-              <Button colorScheme="blue">-</Button>
-              <span style={{ margin: "0 10px" }}></span>
-              <Button colorScheme="blue">+</Button>
+              <Button colorScheme="blue" onClick={decrementRating}>
+                -
+              </Button>
+              <span style={{ margin: "0 10px" }}>{rating}</span>
+              <Button colorScheme="blue" onClick={incrementRating}>
+                +
+              </Button>
             </FormControl>
             <Stack pt={3}>
               <Button>Submit</Button>
@@ -39,4 +69,4 @@ function AddReview() {
   );
 }
 
-export default AddReview
+export default AddReview;
