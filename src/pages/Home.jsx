@@ -31,6 +31,11 @@ function Home() {
               Add Review and Ratings
             </Button>
           </Link>
+          <Link to={'/movie-review'}>
+            <Button variant="ghost" colorScheme="blue">
+              View Review
+            </Button>
+          </Link>
         </ButtonGroup>
       </CardFooter>
     </Card>
