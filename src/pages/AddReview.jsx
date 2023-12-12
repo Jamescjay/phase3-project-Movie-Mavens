@@ -12,7 +12,16 @@ import {
 } from "@chakra-ui/react";
 
 function AddReview() {
+  const initialData = {
+    Name: '',
+    Review: '',
+    Date_Posted: '',
+    Ratings: 0,
+  };
+
   const [rating, setRating] = useState(0);
+  const [formData, setFormData] = useState(initialData);
+  const [isLoading, setIsLoading] = useState(false);
 
   const incrementRating = () => {
     if (rating < 10) {
@@ -26,41 +35,82 @@ function AddReview() {
     }
   };
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true)
+    setTimeout(() => {
+      console.log('form submited')
+      setIsLoading(false)
+    }, 3000)
+  }
+
   return (
     <Flex align={"center"} justify={"center"}>
       <Stack>
         <Heading fontSize={"4xl"} fontFamily={"Gotham"}>
           Add Review
         </Heading>
-        <Box rotate={"lg"} bg={"white"} p={8}>
+        <Box as="form" rotate={"lg"} bg={"white"} p={8} onSubmit={handleSubmit}>
           <Stack>
             <FormControl isRequired>
               <FormLabel>Name</FormLabel>
-              <Input name="name" placeholder="Name" />
+              <Input
+                name="name"
+                placeholder="Name"
+                required
+                onChange={handleChange}
+              />
             </FormControl>
 
             <FormControl isRequired>
               <FormLabel>Review</FormLabel>
-              <Textarea name="name" placeholder="Movie review" />
+              <Textarea
+                name="name"
+                placeholder="Movie review"
+                required
+                onChange={handleChange}
+              />
             </FormControl>
 
             <FormControl isRequired>
               <FormLabel>Date Posted</FormLabel>
-              <Input name="date_posted" type="datetime-local" />
+              <Input
+                name="date_posted"
+                type="datetime-local"
+                required
+                onChange={handleChange}
+              />
             </FormControl>
 
             <FormControl isRequired>
               <FormLabel>Ratings</FormLabel>
-              <Button colorScheme="blue" onClick={decrementRating}>
+              <Button
+                variant="ghost"
+                colorScheme="red"
+                onClick={decrementRating}
+              >
                 -
               </Button>
-              <span style={{ margin: "0 10px" }}>{rating}</span>
-              <Button colorScheme="blue" onClick={incrementRating}>
+              <span style={{ margin: "0 10px" }} onChange={handleChange}>
+                {rating}
+              </span>
+              <Button
+                variant="ghost"
+                colorScheme="red"
+                onClick={incrementRating}
+              >
                 +
               </Button>
             </FormControl>
             <Stack pt={3}>
-              <Button>Submit</Button>
+              <Button isLoading= {isLoading} loadingText="Uploading" colorScheme="blue" type="submit">Submit</Button>
             </Stack>
           </Stack>
         </Box>
