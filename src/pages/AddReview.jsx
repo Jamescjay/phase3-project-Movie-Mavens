@@ -13,10 +13,10 @@ import {
 
 function AddReview() {
   const initialData = {
-    Name: '',
-    Review: '',
-    Date_Posted: '',
-    Ratings: 0,
+    name: '',
+    review: '',
+    date_posted: '',
+    ratings: 0,
   };
 
   const [rating, setRating] = useState(0);
@@ -72,7 +72,7 @@ function AddReview() {
             <FormControl isRequired>
               <FormLabel>Review</FormLabel>
               <Textarea
-                name="name"
+                name="review"
                 placeholder="Movie review"
                 required
                 onChange={handleChange}
