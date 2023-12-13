@@ -44,12 +44,21 @@ function AddReview() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true)
-    setTimeout(() => {
-      console.log('form submited')
+    setIsLoading(true);
+
+    fetch(`$(BASE_URL)/reviews`,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }).then((res) => res.json()).then((data) => {
+      setFormData(initialData)
       setIsLoading(false)
-    }, 3000)
-  }
+    }).catch((err) => {
+      console.log(err)
+    });
+  };
 
   return (
     <Flex align={"center"} justify={"center"}>
