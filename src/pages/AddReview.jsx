@@ -56,6 +56,7 @@ function AddReview() {
       setFormData(initialData)
       setIsLoading(false)
     }).catch((err) => {
+      isLoading(false)
       console.log(err)
     });
   };

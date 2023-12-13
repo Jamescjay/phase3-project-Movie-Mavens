@@ -1,18 +1,18 @@
 import { Card, CardHeader, CardBody, Heading,Stack, Box, Text, StackDivider, Image } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
+
+function Review({movies}) {
+const { id } = useParams();
+const selectedMovie = movies.find((movie) => movie.id === id);
 
 
-function Review() {
   return (
     <>
-      <Card>
+      <Card key={selectedMovie.id}>
         <CardHeader>
-          <Heading size="md">Zack Snyder's Justice League</Heading>
+          <Heading size="md">{selectedMovie.Title}</Heading>
         </CardHeader>
-        <Image
-          objectFit="cover"
-          src="https://images.thedirect.com/media/article_full/newpos_QB7hEyO.jpg"
-          h={500}
-        />
+        <Image objectFit="cover" src={selectedMovie.Poster} h={500} />
       </Card>
 
       <Card>

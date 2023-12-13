@@ -1,44 +1,24 @@
 import {
-  Button,
-  Card,
-  CardBody,
-  Image,
-  Stack,
-  Heading,
-  Divider,
-  CardFooter,
-  ButtonGroup,
+  Flex,
+  Input,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
+import { useState } from "react";
 
-function Home() {
+
+
+function Home({data}) {
+  const [movies, setMovies] = useState(data)
   return (
-    <Card maxW="sm">
-      <CardBody>
-        <Image
-          src="https://images.thedirect.com/media/article_full/newpos_QB7hEyO.jpg"
-          borderRadius="lg"
-        />
-        <Stack mt="6" spacing="3">
-          <Heading size="md">Zack Snyder's Justice League</Heading>
-        </Stack>
-      </CardBody>
-      <Divider />
-      <CardFooter>
-        <ButtonGroup spacing="2">
-          <Link to={"/add-review"}>
-            <Button variant="solid" colorScheme="blue">
-              Add Review and Ratings
-            </Button>
-          </Link>
-          <Link to={'/movie-review'}>
-            <Button variant="ghost" colorScheme="blue">
-              View Review
-            </Button>
-          </Link>
-        </ButtonGroup>
-      </CardFooter>
-    </Card>
+    <Flex direction="column" p={4}>
+      <Input placeholder="Search" bg={"white"} />
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={5}>
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </SimpleGrid>
+    </Flex>
   );
 }
 
