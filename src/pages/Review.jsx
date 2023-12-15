@@ -1,9 +1,32 @@
 import { Card, CardHeader, CardBody, Heading,Stack, Box, Text, StackDivider, Image } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BASE_URL } from "../Utils/main";
 
 function Review({movies}) {
 const { id } = useParams();
+const [review, setReview] = useState(null);
+
 const selectedMovie = movies.find((movie) => movie.id === id);
+
+useEffect(() => {
+  fetch(`${BASE_URL}/reviews/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setReview(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, [BASE_URL, id]);
+
+if (!review) {
+  return (
+    <h5 style={{ fontWeight: "bold" }}>
+      No Reviews Available yet for {selectedMovie.Title}
+    </h5>
+  );
+}
 
 
   return (
@@ -17,7 +40,7 @@ const selectedMovie = movies.find((movie) => movie.id === id);
 
       <Card>
         <CardHeader>
-          <Heading size="md">John Doe</Heading>
+          <Heading size="md">{review.name}</Heading>
         </CardHeader>
 
         <CardBody>
@@ -27,7 +50,7 @@ const selectedMovie = movies.find((movie) => movie.id === id);
                 Movie Review
               </Heading>
               <Text pt="2" fontSize="sm">
-                View a summary of all your clients over the last month
+                {review.review}
               </Text>
             </Box>
             <Box>
@@ -35,7 +58,7 @@ const selectedMovie = movies.find((movie) => movie.id === id);
                 Ratings
               </Heading>
               <Text pt="2" fontSize="sm">
-                Check out the overview of your clients.
+                {review.ratings}
               </Text>
             </Box>
             <Box>
@@ -43,7 +66,7 @@ const selectedMovie = movies.find((movie) => movie.id === id);
                 Date Posted
               </Heading>
               <Text pt="2" fontSize="sm">
-                See a detailed analysis of all your business clients.
+                {review.date_posted}
               </Text>
             </Box>
           </Stack>

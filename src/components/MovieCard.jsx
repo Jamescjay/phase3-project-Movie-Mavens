@@ -8,7 +8,6 @@ import {
   Divider,
   CardFooter,
   ButtonGroup,
-  Box,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 

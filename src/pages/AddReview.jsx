@@ -10,13 +10,14 @@ import {
   Textarea,
   Button,
 } from "@chakra-ui/react";
+import { BASE_URL } from "../Utils/main";
 
 function AddReview() {
   const initialData = {
-    name: '',
-    review: '',
-    date_posted: '',
-    ratings: 0,
+    name: "",
+    review: "",
+    date_posted: "",
+    ratings: "",
   };
 
   const [rating, setRating] = useState(0);
@@ -26,12 +27,20 @@ function AddReview() {
   const incrementRating = () => {
     if (rating < 10) {
       setRating(rating + 1);
+      setFormData({
+        ...formData,
+        ratings: rating + 1,
+      });
     }
   };
 
   const decrementRating = () => {
     if (rating > 0) {
       setRating(rating - 1);
+      setFormData({
+        ...formData,
+        ratings: rating - 1,
+      });
     }
   };
 
@@ -40,25 +49,28 @@ function AddReview() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    fetch(`$(BASE_URL)/reviews`,{
-      method: 'POST',
+    fetch(`${BASE_URL}/reviews`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData)
-    }).then((res) => res.json()).then((data) => {
-      setFormData(initialData)
-      setIsLoading(false)
-    }).catch((err) => {
-      isLoading(false)
-      console.log(err)
-    });
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setFormData(initialData);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.error(err);
+      });
   };
 
   return (
@@ -108,9 +120,7 @@ function AddReview() {
               >
                 -
               </Button>
-              <span style={{ margin: "0 10px" }} onChange={handleChange}>
-                {rating}
-              </span>
+              <span style={{ margin: "0 10px" }}>{rating}</span>
               <Button
                 variant="ghost"
                 colorScheme="red"
@@ -120,7 +130,14 @@ function AddReview() {
               </Button>
             </FormControl>
             <Stack pt={3}>
-              <Button isLoading= {isLoading} loadingText="Uploading" colorScheme="blue" type="submit">Submit</Button>
+              <Button
+                isLoading={isLoading}
+                loadingText="Uploading"
+                colorScheme="blue"
+                type="submit"
+              >
+                Submit
+              </Button>
             </Stack>
           </Stack>
         </Box>
