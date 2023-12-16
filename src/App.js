@@ -30,6 +30,19 @@ function App() {
       });
   }, []);
 
+ const deleteReview = (reviews_id) => {
+   fetch(`${BASE_URL}/reviews/${reviews_id}`, {
+     method: "DELETE",
+   }).then((response) => {
+     if (response.ok) {
+       const updatedReview = reviews.filter(
+         (review) => review.id !== reviews_id
+       );
+       setReviews(updatedReview);
+     }
+   });
+ };
+
   return (
     <main style={{ height: "100vh" }}>
       <Navbar />
@@ -42,7 +55,7 @@ function App() {
           />
           <Route
             path="movie-review/:movieId"
-            element={<Review movies={movies} reviews={reviews} />}
+            element={<Review movies={movies} reviews={reviews} deleteReview={deleteReview}/>}
           />
         </Routes>
       </Box>

@@ -10,6 +10,7 @@ import {
   CardFooter,
   ButtonGroup,
 } from "@chakra-ui/react";
+import { ChatIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 function MovieCard({ movie }) {
@@ -25,13 +26,17 @@ function MovieCard({ movie }) {
       <CardFooter>
         <ButtonGroup spacing="2">
           <Link to={`/add-review/${movie.id}`}>
-            <Button variant="solid" colorScheme="blue">
-              Add Review and Ratings
+            <Button
+              variant="solid"
+              colorScheme="blue"
+              leftIcon={<PlusSquareIcon/>}
+            >
+              Review&Ratings
             </Button>
           </Link>
           <Link to={`/movie-review/${movie.id}`}>
-            <Button variant="ghost" colorScheme="blue">
-              View Review
+            <Button variant="ghost" leftIcon={<ChatIcon />}>
+              Reviews
             </Button>
           </Link>
         </ButtonGroup>

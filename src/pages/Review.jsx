@@ -9,13 +9,16 @@ import {
   Text,
   StackDivider,
   Image,
+  Flex,
+  CardFooter,
+  Button
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { DeleteIcon } from "@chakra-ui/icons";
 
-
-function Review({ movies, reviews }) {
+function Review({ movies, reviews, deleteReview }) {
   const { movieId } = useParams();
-  const [review, setReview] = useState(null);
+  const [movieReviews, setMovieReviews] = useState([]);
 
   useEffect(() => {
     const MovieId = parseInt(movieId);
@@ -26,13 +29,15 @@ function Review({ movies, reviews }) {
       return;
     }
 
-    // Find the review for the selected movie from the reviews array
-    const movieReview = reviews.find((review) => review.movie_id === MovieId);
+    // Find all reviews for the selected movie from the reviews array
+    const reviewsForMovie = reviews.filter(
+      (review) => review.movie_id === MovieId
+    );
 
-    setReview(movieReview);
+    setMovieReviews(reviewsForMovie);
   }, [movieId, movies, reviews]);
 
-  if (!review) {
+  if (movieReviews.length === 0) {
     return (
       <h5 style={{ fontWeight: "bold" }}>
         No Reviews Available yet for{" "}
@@ -43,50 +48,70 @@ function Review({ movies, reviews }) {
 
   const selectedMovie = movies.find((movie) => movie.id === parseInt(movieId));
 
+  const handleDeleteReview = (reviewId) => {
+    deleteReview(reviewId);
+  };
+
   return (
-    <>
-      <Card key={selectedMovie.id}>
-        <CardHeader>
-          <Heading size="md">{selectedMovie.Title}</Heading>
-        </CardHeader>
-        <Image objectFit="cover" src={selectedMovie.Poster} h={500} />
-      </Card>
+    <Flex direction="column" p={1}>
+      <Card m={4} maxW="5xl" mx="auto" mt={8}>
+        <Card key={selectedMovie.id}>
+          <CardHeader>
+            <Heading size="md">{selectedMovie.Title}</Heading>
+          </CardHeader>
+          <Image p={8} objectFit="cover" src={selectedMovie.Poster} h={600} />
+        </Card>
 
-      <Card>
-        <CardHeader>
-          <Heading size="md">{review.name}</Heading>
-        </CardHeader>
+        <Stack spacing="4">
+          {movieReviews.map((review) => (
+            <Card key={review.id} m={4} bg={"gray.200"}>
+              <CardHeader>
+                <Heading size="md">{review.name}</Heading>
+              </CardHeader>
 
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Movie Review
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {review.review}
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Ratings
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {review.ratings}
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Date Posted
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                {review.date_posted}
-              </Text>
-            </Box>
-          </Stack>
-        </CardBody>
+              <CardBody>
+                <Stack divider={<StackDivider />} spacing="4">
+                  <Box>
+                    <Heading size="xs" textTransform="uppercase">
+                      Movie Review
+                    </Heading>
+                    <Text pt="2" fontSize="sm">
+                      {review.review}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Heading size="xs" textTransform="uppercase">
+                      Ratings
+                    </Heading>
+                    <Text pt="2" fontSize="sm">
+                      {review.ratings}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Heading size="xs" textTransform="uppercase">
+                      Date Posted
+                    </Heading>
+                    <Text pt="2" fontSize="sm">
+                      {review.date_posted}
+                    </Text>
+                  </Box>
+                </Stack>
+              </CardBody>
+              <CardFooter>
+                <Button
+                  colorScheme="blue"
+                  onClick={() => handleDeleteReview(review.id)}
+                  variant="ghost"
+                  leftIcon={<DeleteIcon color="red" />}
+                >
+                  Delete Review
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </Stack>
       </Card>
-    </>
+    </Flex>
   );
 }
 
