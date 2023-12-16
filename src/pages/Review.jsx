@@ -1,33 +1,47 @@
-import { Card, CardHeader, CardBody, Heading,Stack, Box, Text, StackDivider, Image } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Heading,
+  Stack,
+  Box,
+  Text,
+  StackDivider,
+  Image,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { BASE_URL } from "../Utils/main";
 
-function Review({movies}) {
-const { id } = useParams();
-const [review, setReview] = useState(null);
 
-const selectedMovie = movies.find((movie) => movie.id === id);
+function Review({ movies, reviews }) {
+  const { movieId } = useParams();
+  const [review, setReview] = useState(null);
 
-useEffect(() => {
-  fetch(`${BASE_URL}/reviews/${id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setReview(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}, [BASE_URL, id]);
+  useEffect(() => {
+    const MovieId = parseInt(movieId);
+    const selectedMovie = movies.find((movie) => movie.id === MovieId);
 
-if (!review) {
-  return (
-    <h5 style={{ fontWeight: "bold" }}>
-      No Reviews Available yet for {selectedMovie.Title}
-    </h5>
-  );
-}
+    if (!selectedMovie) {
+      console.error("Movie not found with ID:", MovieId);
+      return;
+    }
 
+    // Find the review for the selected movie from the reviews array
+    const movieReview = reviews.find((review) => review.movie_id === MovieId);
+
+    setReview(movieReview);
+  }, [movieId, movies, reviews]);
+
+  if (!review) {
+    return (
+      <h5 style={{ fontWeight: "bold" }}>
+        No Reviews Available yet for{" "}
+        {movies.find((movie) => movie.id === parseInt(movieId))?.Title}
+      </h5>
+    );
+  }
+
+  const selectedMovie = movies.find((movie) => movie.id === parseInt(movieId));
 
   return (
     <>
@@ -76,4 +90,4 @@ if (!review) {
   );
 }
 
-export default Review
+export default Review;

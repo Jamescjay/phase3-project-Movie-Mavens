@@ -1,20 +1,14 @@
-import {
-  Center,
-  Flex,
-  Heading,
-  Input,
-  SimpleGrid,
-} from "@chakra-ui/react";
+// Home.jsx
+import { Center, Flex, Heading, Input, SimpleGrid } from "@chakra-ui/react";
 import MovieCard from "../components/MovieCard";
 import { useState } from "react";
 
+function Home({ movies }) {
+  const [searchTerm, setSearchTerm] = useState("");
 
-
-function Home({data}) {
-  const [movies, setMovies] = useState(data)
-  const [searchTerm, setSearchTerm] = useState("")
-
-  const searchMovies = movies.filter((movie)=> movie.Title.toLowerCase().includes(searchTerm.toLowerCase()));
+  const searchMovies = movies.filter((movie) =>
+    movie.Title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Flex direction="column" p={4}>
@@ -33,7 +27,7 @@ function Home({data}) {
         </SimpleGrid>
       ) : (
         <Center>
-          <Heading size={'2xl'}>Oops! Movie not found</Heading>
+          <Heading size={"2xl"}>Oops! Movie not found</Heading>
         </Center>
       )}
     </Flex>

@@ -10,14 +10,17 @@ import {
   Textarea,
   Button,
 } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 import { BASE_URL } from "../Utils/main";
 
 function AddReview() {
+  const { movieId } = useParams();
   const initialData = {
-    name: "",
-    review: "",
-    date_posted: "",
-    ratings: "",
+    name: '',
+    review: '',
+    date_posted: '',
+    ratings: 0,
+    movie_id: parseInt(movieId),
   };
 
   const [rating, setRating] = useState(0);
@@ -49,18 +52,18 @@ function AddReview() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     fetch(`${BASE_URL}/reviews`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(formData)
     })
       .then((res) => res.json())
       .then((data) => {
@@ -120,7 +123,9 @@ function AddReview() {
               >
                 -
               </Button>
-              <span style={{ margin: "0 10px" }}>{rating}</span>
+              <span style={{ margin: "0 10px" }}>
+                {rating}
+              </span>
               <Button
                 variant="ghost"
                 colorScheme="red"
@@ -130,14 +135,7 @@ function AddReview() {
               </Button>
             </FormControl>
             <Stack pt={3}>
-              <Button
-                isLoading={isLoading}
-                loadingText="Uploading"
-                colorScheme="blue"
-                type="submit"
-              >
-                Submit
-              </Button>
+              <Button isLoading={isLoading} loadingText="Uploading" colorScheme="blue" type="submit">Submit</Button>
             </Stack>
           </Stack>
         </Box>
