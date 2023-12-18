@@ -59,14 +59,14 @@ function AddReview() {
     setIsLoading(true);
 
     fetch(`${BASE_URL}/reviews`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         setFormData(initialData);
         setIsLoading(false);
       })
@@ -75,6 +75,7 @@ function AddReview() {
         console.error(err);
       });
   };
+
 
   return (
     <Flex align={"center"} justify={"center"}>

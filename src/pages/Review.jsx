@@ -11,10 +11,12 @@ import {
   Image,
   Flex,
   CardFooter,
-  Button
+  Button,
+  ButtonGroup
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { DeleteIcon } from "@chakra-ui/icons";
+import UpdateReview from "../components/UpdateReview";
 
 function Review({ movies, reviews, deleteReview }) {
   const { movieId } = useParams();
@@ -54,7 +56,7 @@ function Review({ movies, reviews, deleteReview }) {
 
   return (
     <Flex direction="column" p={1}>
-      <Card m={4} maxW="5xl" mx="auto" mt={8}>
+      <Card m={4} maxW="4xl" mx="auto" mt={8}>
         <Card key={selectedMovie.id}>
           <CardHeader>
             <Heading size="md">{selectedMovie.Title}</Heading>
@@ -98,14 +100,20 @@ function Review({ movies, reviews, deleteReview }) {
                 </Stack>
               </CardBody>
               <CardFooter>
-                <Button
-                  colorScheme="blue"
-                  onClick={() => handleDeleteReview(review.id)}
-                  variant="ghost"
-                  leftIcon={<DeleteIcon color="red" />}
-                >
-                  Delete Review
-                </Button>
+                <ButtonGroup spacing="10">
+                  <UpdateReview
+                    reviewId={review.id}
+                    existingReview={review}
+                  />
+                  <Button
+                    colorScheme="red"
+                    onClick={() => handleDeleteReview(review.id)}
+                    variant="ghost"
+                    leftIcon={<DeleteIcon color="red" />}
+                  >
+                    Delete Review
+                  </Button>
+                </ButtonGroup>
               </CardFooter>
             </Card>
           ))}
