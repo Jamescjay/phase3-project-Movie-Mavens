@@ -1,4 +1,4 @@
-// Home.jsx
+
 import { Center, Flex, Heading, Input, SimpleGrid } from "@chakra-ui/react";
 import MovieCard from "../components/MovieCard";
 import { useState } from "react";

@@ -34,14 +34,14 @@ function UpdateReview({ reviewId, existingReview, onUpdate }) {
     })
       .then((response) => {
         if (response.ok) {
-          onUpdate(); // Trigger parent component to refresh data
-          onClose(); // Close the modal after successful update
+          onUpdate(); 
+          onClose(); 
         } else {
-          // Handle error cases if needed
+        
         }
       })
       .catch((error) => {
-        // Handle fetch error
+      
       });
   };
 

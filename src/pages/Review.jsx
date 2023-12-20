@@ -32,7 +32,6 @@ function Review({ movies, reviews, deleteReview }) {
       return;
     }
 
-    // Find all reviews for the selected movie from the reviews array
     const reviewsForMovie = reviews.filter(
       (review) => review.movie_id === MovieId
     );
