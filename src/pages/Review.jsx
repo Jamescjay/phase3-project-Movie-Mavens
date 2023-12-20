@@ -17,6 +17,7 @@ import {
 import { useParams } from "react-router-dom";
 import { DeleteIcon } from "@chakra-ui/icons";
 import UpdateReview from "../components/UpdateReview";
+import { formatDate } from "../Utils/main";
 
 function Review({ movies, reviews, deleteReview }) {
   const { movieId } = useParams();
@@ -94,7 +95,7 @@ function Review({ movies, reviews, deleteReview }) {
                       Date Posted
                     </Heading>
                     <Text pt="2" fontSize="sm">
-                      {review.date_posted}
+                      {formatDate(review.date_posted)}
                     </Text>
                   </Box>
                 </Stack>

@@ -16,9 +16,9 @@ import { BASE_URL } from "../Utils/main";
 function AddReview() {
   const { movieId } = useParams();
   const initialData = {
-    name: '',
-    review: '',
-    date_posted: '',
+    name: "",
+    review: "",
+    date_posted: "",
     ratings: 0,
     movie_id: parseInt(movieId),
   };
@@ -29,30 +29,32 @@ function AddReview() {
 
   const incrementRating = () => {
     if (rating < 10) {
-      setRating(rating + 1);
-      setFormData({
-        ...formData,
-        ratings: rating + 1,
-      });
+      setRating((prevRating) => prevRating + 1);
+      setFormData((prevData) => ({
+        ...prevData,
+        ratings: prevData.ratings + 1,
+      }));
     }
   };
 
   const decrementRating = () => {
     if (rating > 0) {
-      setRating(rating - 1);
-      setFormData({
-        ...formData,
-        ratings: rating - 1,
-      });
+      setRating((prevRating) => prevRating - 1);
+      setFormData((prevData) => ({
+        ...prevData,
+        ratings: prevData.ratings - 1,
+      }));
     }
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+      ratings: rating, 
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,6 +70,7 @@ function AddReview() {
       .then((res) => res.json())
       .then(() => {
         setFormData(initialData);
+        setRating(0);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -75,7 +78,6 @@ function AddReview() {
         console.error(err);
       });
   };
-
 
   return (
     <Flex align={"center"} justify={"center"}>
@@ -91,6 +93,7 @@ function AddReview() {
                 name="name"
                 placeholder="Name"
                 required
+                value={formData.name}
                 onChange={handleChange}
               />
             </FormControl>
@@ -101,6 +104,7 @@ function AddReview() {
                 name="review"
                 placeholder="Movie review"
                 required
+                value={formData.review}
                 onChange={handleChange}
               />
             </FormControl>
@@ -111,6 +115,7 @@ function AddReview() {
                 name="date_posted"
                 type="datetime-local"
                 required
+                value={formData.date_posted}
                 onChange={handleChange}
               />
             </FormControl>
@@ -124,9 +129,7 @@ function AddReview() {
               >
                 -
               </Button>
-              <span style={{ margin: "0 10px" }}>
-                {rating}
-              </span>
+              <span style={{ margin: "0 10px" }}>{rating}</span>
               <Button
                 variant="ghost"
                 colorScheme="red"
@@ -136,7 +139,14 @@ function AddReview() {
               </Button>
             </FormControl>
             <Stack pt={3}>
-              <Button isLoading={isLoading} loadingText="Uploading" colorScheme="blue" type="submit">Submit</Button>
+              <Button
+                isLoading={isLoading}
+                loadingText="Uploading"
+                colorScheme="blue"
+                type="submit"
+              >
+                Submit
+              </Button>
             </Stack>
           </Stack>
         </Box>
